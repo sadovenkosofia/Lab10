@@ -1,0 +1,52 @@
+"""
+solution "delete node in a BST"
+"""
+class Solution:
+    """
+    solution "delete node in a BST"
+    """
+    def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+        """
+        Deletes a node with the given key from the BST and returns the root.
+        """
+        parent = None
+        curr = root
+
+        while curr:
+            if curr.val == key:
+                break
+            parent = curr
+            if curr.val > key:
+                curr = curr.left
+            else:
+                curr = curr.right
+
+        if curr is None:
+            return root
+
+        if curr.left and curr.right:
+            succ_parent = curr
+            succ = curr.right
+
+            while succ.left:
+                succ_parent = succ
+                succ = succ.left
+
+            curr.val = succ.val
+            curr = succ
+            parent = succ_parent
+
+        if curr.left:
+            child = curr.left
+        else:
+            child = curr.right
+
+        if not parent:
+            return child
+
+        if parent.left == curr:
+            parent.left = child
+        else:
+            parent.right = child
+
+        return root
